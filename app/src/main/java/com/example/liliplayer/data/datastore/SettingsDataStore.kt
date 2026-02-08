@@ -28,9 +28,9 @@ class SettingsDataStore @Inject constructor(
 
     val sortOrder: Flow<SortOrder> = context.dataStore.data.map { prefs ->
         try {
-            SortOrder.valueOf(prefs[Keys.SORT_ORDER] ?: SortOrder.TITLE_ASC.name)
+            SortOrder.valueOf(prefs[Keys.SORT_ORDER] ?: SortOrder.DATE_ADDED_DESC.name)
         } catch (e: IllegalArgumentException) {
-            SortOrder.TITLE_ASC
+            SortOrder.DATE_ADDED_DESC
         }
     }
 

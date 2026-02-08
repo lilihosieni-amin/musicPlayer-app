@@ -40,6 +40,7 @@ fun NowPlayingScreen(
     onAddToPlaylist: ((Song) -> Unit)? = null,
     onManageTags: ((Song) -> Unit)? = null,
     onEditMetadata: ((Song) -> Unit)? = null,
+    onDelete: ((Song) -> Unit)? = null,
     lyrics: String? = null,
     lyricsLoading: Boolean = false,
     onLoadLyrics: ((Song) -> Unit)? = null,
@@ -91,6 +92,9 @@ fun NowPlayingScreen(
                         }
                         if (song != null && onEditMetadata != null) {
                             DropdownMenuItem(text = { Text("Edit Info") }, onClick = { showMenu = false; onEditMetadata(song) }, leadingIcon = { Icon(Icons.Default.Edit, null, tint = SunnyYellow) })
+                        }
+                        if (song != null && onDelete != null) {
+                            DropdownMenuItem(text = { Text("Delete", color = ErrorRed) }, onClick = { showMenu = false; onDelete(song) }, leadingIcon = { Icon(Icons.Default.Delete, null, tint = ErrorRed) })
                         }
                     }
                 }

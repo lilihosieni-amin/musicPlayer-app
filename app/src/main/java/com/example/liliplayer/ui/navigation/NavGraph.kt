@@ -1,5 +1,10 @@
 package com.example.liliplayer.ui.navigation
 
+import android.app.Activity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -9,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.liliplayer.domain.model.Song
 import com.example.liliplayer.playback.PlaybackController
+import com.example.liliplayer.ui.components.DeleteConfirmationDialog
 import com.example.liliplayer.ui.components.MetadataEditorDialog
 import com.example.liliplayer.ui.components.PlaylistPickerDialog
 import com.example.liliplayer.ui.components.TagPickerDialog
@@ -193,6 +199,34 @@ fun NavGraph(
             var songToAddToPlaylist by remember { mutableStateOf<Song?>(null) }
             var songToTag by remember { mutableStateOf<Song?>(null) }
             var songToEdit by remember { mutableStateOf<Song?>(null) }
+            var songToDelete by remember { mutableStateOf<Song?>(null) }
+            val deleteResult by songActionsVm.deleteResult.collectAsState()
+
+            val deleteLauncher = rememberLauncherForActivityResult(
+                ActivityResultContracts.StartIntentSenderForResult()
+            ) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    songActionsVm.onDeletePermissionGranted()
+                    navController.popBackStack()
+                }
+            }
+
+            LaunchedEffect(deleteResult) {
+                deleteResult?.let { result ->
+                    when (result) {
+                        is SongActionsViewModel.DeleteState.RequiresPermission -> {
+                            deleteLauncher.launch(IntentSenderRequest.Builder(result.intentSender).build())
+                        }
+                        is SongActionsViewModel.DeleteState.Success -> {
+                            songActionsVm.clearDeleteResult()
+                            navController.popBackStack()
+                        }
+                        is SongActionsViewModel.DeleteState.Error -> {
+                            songActionsVm.clearDeleteResult()
+                        }
+                    }
+                }
+            }
 
             LaunchedEffect(playbackState.currentSong?.id) {
                 nowPlayingVm.setSongId(playbackState.currentSong?.id)
@@ -207,6 +241,7 @@ fun NavGraph(
                 onAddToPlaylist = { song -> songToAddToPlaylist = song },
                 onManageTags = { song -> songToTag = song },
                 onEditMetadata = { song -> songToEdit = song },
+                onDelete = { song -> songToDelete = song },
                 lyrics = lyrics,
                 lyricsLoading = lyricsLoading,
                 onLoadLyrics = { song ->
@@ -248,6 +283,17 @@ fun NavGraph(
                         songActionsVm.updateSongMetadata(song.id, title, artist, album)
                         songToEdit = null
                     }
+                )
+            }
+
+            songToDelete?.let { song ->
+                DeleteConfirmationDialog(
+                    songTitle = song.title,
+                    onConfirm = {
+                        songActionsVm.deleteSong(song.id)
+                        songToDelete = null
+                    },
+                    onDismiss = { songToDelete = null }
                 )
             }
         }

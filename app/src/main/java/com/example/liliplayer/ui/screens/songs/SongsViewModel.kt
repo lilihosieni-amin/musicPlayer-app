@@ -38,7 +38,7 @@ class SongsViewModel @Inject constructor(
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     val sortOrder: StateFlow<SortOrder> = settingsDataStore.sortOrder
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SortOrder.TITLE_ASC)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SortOrder.DATE_ADDED_DESC)
 
     init {
         viewModelScope.launch {

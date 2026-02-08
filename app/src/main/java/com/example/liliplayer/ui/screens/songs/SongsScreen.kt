@@ -20,7 +20,6 @@ import com.example.liliplayer.ui.components.EmptyState
 import com.example.liliplayer.ui.components.PermissionHandler
 import com.example.liliplayer.ui.components.PlaylistPickerDialog
 import com.example.liliplayer.ui.components.SongListItem
-import com.example.liliplayer.ui.components.SortMenuDropdown
 import com.example.liliplayer.ui.screens.shared.SongActionsViewModel
 import com.example.liliplayer.ui.theme.*
 
@@ -33,7 +32,6 @@ fun SongsScreen(
 ) {
     val songs by viewModel.songs.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
-    val sortOrder by viewModel.sortOrder.collectAsState()
     val playbackState by playbackController.playbackState.collectAsState()
 
     var songToAddToPlaylist by remember { mutableStateOf<Song?>(null) }
@@ -87,22 +85,6 @@ fun SongsScreen(
             snackbarHost = { SnackbarHost(snackbarHostState) }
         ) { scaffoldPadding ->
             Column(modifier = Modifier.fillMaxSize().padding(scaffoldPadding)) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = "${songs.size} songs",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                    SortMenuDropdown(
-                        currentSort = sortOrder,
-                        onSortSelected = { viewModel.setSortOrder(it) }
-                    )
-                }
-
                 if (isLoading) {
                     Box(modifier = Modifier.fillMaxSize()) {
                         CircularProgressIndicator(
@@ -115,8 +97,7 @@ fun SongsScreen(
                 } else {
                     LazyColumn(
                         state = listState,
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(bottom = 8.dp)
+                        modifier = Modifier.fillMaxSize()
                     ) {
                         items(songs, key = { it.id }) { song ->
                             SongListItem(

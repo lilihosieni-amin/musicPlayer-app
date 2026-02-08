@@ -40,14 +40,14 @@ fun MiniPlayer(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 8.dp)
+            .padding(horizontal = 8.dp, vertical = 6.dp)
             .shadow(
                 elevation = 16.dp,
-                shape = RoundedCornerShape(28.dp),
+                shape = RoundedCornerShape(24.dp),
                 ambientColor = Primary.copy(alpha = 0.15f),
                 spotColor = Secondary.copy(alpha = 0.1f)
             ),
-        shape = RoundedCornerShape(28.dp),
+        shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = BgCard),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -56,15 +56,15 @@ fun MiniPlayer(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable(onClick = onClick)
-                    .padding(horizontal = 14.dp, vertical = 10.dp),
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 AsyncImage(
                     model = song.albumArtUri,
                     contentDescription = "Album art",
                     modifier = Modifier
-                        .size(44.dp)
-                        .clip(RoundedCornerShape(14.dp)),
+                        .size(40.dp)
+                        .clip(RoundedCornerShape(12.dp)),
                     contentScale = ContentScale.Crop
                 )
                 Column(
@@ -114,8 +114,8 @@ fun MiniPlayer(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 14.dp, vertical = 0.dp)
-                    .padding(bottom = 10.dp)
+                    .padding(horizontal = 12.dp, vertical = 0.dp)
+                    .padding(bottom = 8.dp)
                     .height(4.dp)
                     .clip(RoundedCornerShape(2.dp))
                     .background(SeekBarTrack)
