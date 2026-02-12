@@ -36,6 +36,7 @@ import com.example.liliplayer.ui.screens.settings.SettingsScreen
 import com.example.liliplayer.ui.screens.shared.SongActionsViewModel
 import com.example.liliplayer.ui.screens.songs.SongsScreen
 import com.example.liliplayer.ui.screens.tags.TagDetailScreen
+import com.example.liliplayer.ui.screens.downloader.BeelodyDownloaderScreen
 import com.example.liliplayer.ui.screens.tags.TagsScreen
 
 @Composable
@@ -324,6 +325,10 @@ fun NavGraph(
 
         composable(Screen.Settings.route) {
             SettingsScreen(onBack = { navController.popBackStack() })
+        }
+
+        composable(Screen.BeelodyDownloader.route) {
+            BeelodyDownloaderScreen(onBack = { navController.popBackStack() })
         }
     }
 }

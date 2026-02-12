@@ -83,6 +83,13 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.guava)
 
+    // OkHttp (Beelody Downloader)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.urlconnection)
+
+    // Jsoup HTML Parser (Beelody Downloader)
+    implementation(libs.jsoup)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -43,7 +43,8 @@ fun HomeScreen(playbackController: PlaybackController) {
         DrawerItem(Screen.Playlists, "Playlists", Icons.Filled.QueueMusic, Icons.Outlined.QueueMusic),
         DrawerItem(Screen.Genres, "Genres", Icons.Filled.Category, Icons.Outlined.Category),
         DrawerItem(Screen.Tags, "Tags", Icons.Filled.Label, Icons.Outlined.Label),
-        DrawerItem(Screen.Favorites, "Favorites", Icons.Filled.Favorite, Icons.Outlined.FavoriteBorder)
+        DrawerItem(Screen.Favorites, "Favorites", Icons.Filled.Favorite, Icons.Outlined.FavoriteBorder),
+        DrawerItem(Screen.BeelodyDownloader, "Beelody", Icons.Filled.CloudDownload, Icons.Outlined.CloudDownload)
     )
 
     val mainRoutes = drawerItems.map { it.screen.route }
@@ -54,7 +55,7 @@ fun HomeScreen(playbackController: PlaybackController) {
     val scope = rememberCoroutineScope()
 
     // Cycle colors for drawer items
-    val itemColors = listOf(MintGreen, SoftPink, SkyBlue, Lavender, SunnyYellow, MintGreen, Secondary)
+    val itemColors = listOf(MintGreen, SoftPink, SkyBlue, Lavender, SunnyYellow, MintGreen, Secondary, Accent)
 
     ModalNavigationDrawer(
         drawerState = drawerState,
